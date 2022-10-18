@@ -1,0 +1,26 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.logo {
+  max-width: 50%;
+}
+
+.btn {
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 600;
+  height: 30px;
+  width: 135px;
+  padding: 5px 15px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background-color: var(--light-gray);
+}
