@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import "./Search.css";
 import { CiSearch } from "react-icons/ci";
+import Select from "react-select";
 
 const Search = (props) => {
   const inputRef = useRef();
@@ -15,10 +16,29 @@ const Search = (props) => {
   };
 
   const handleRegion = (e) => {
-    e.preventDefault();
     setSearch("");
-    setRegion(e.target.value);
-    inputRef.current.value = "";
+    setRegion(e.value);
+  };
+
+  const options = [
+    { value: "all", label: "All" },
+    { value: "africa", label: "Africa" },
+    { value: "americas", label: "Americas" },
+    { value: "asia", label: "Asia" },
+    { value: "europe", label: "Europe" },
+    { value: "oceania", label: "Oceania" },
+  ];
+
+  const customStyles = {
+    control: (styles) => ({
+      ...styles,
+      width: "200px",
+      height: "50px",
+      border: "none",
+      borderRadius: "5px",
+      boxShadow: " 0px 2px 2px 0px rgba(0, 0, 0, 0.1);",
+      cursor: "pointer",
+    }),
   };
 
   return (
@@ -37,19 +57,15 @@ const Search = (props) => {
       </form>
       <div className="filter">
         <label htmlFor="region-filter"></label>
-        <select
-          id="region-filter"
-          name="region-filter"
-          onChange={handleRegion}
+        <Select
+          styles={customStyles}
+          className="select"
           ref={optionRef}
-        >
-          <option value="all">Filter by Region</option>
-          <option value="africa">Africa</option>
-          <option value="americas">Americas</option>
-          <option value="asia">Asia</option>
-          <option value="europe">Europe</option>
-          <option value="oceania">Oceania</option>
-        </select>
+          options={options}
+          onChange={handleRegion}
+          placeholder="Filter by Region"
+          isSearchable={false}
+        />
       </div>
     </div>
   );

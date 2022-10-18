@@ -1,5 +1,6 @@
 :root {
-  --light-gray: #cccccc6e;
+  --light-gray: hsl(0, 0%, 98%);
+  --dark-gray: hsl(0, 0%, 52%);
 }
 
 * {
@@ -9,7 +10,8 @@
 body {
   margin: 0 auto;
   font-family: "Nunito Sans", sans-serif;
-  max-width: 1800px;
+
+  background-color: var(--light-gray);
 }
 
 /*

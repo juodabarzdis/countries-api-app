@@ -2,6 +2,9 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  max-width: 1800px;
+  margin: 0 auto;
 }
 
 .main-container {
@@ -16,4 +19,11 @@ main ul {
   justify-content: space-evenly;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
 }
