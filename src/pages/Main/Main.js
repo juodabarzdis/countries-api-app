@@ -4,14 +4,18 @@ import Axios from "axios";
 
 import Card from "../../components/Card/Card";
 import Pager from "../../components/Pagination/Pager";
+import Search from "../../components/Search/Search";
+import { Link } from "react-router-dom";
 
 const Main = (props) => {
   const [countries, setCountries] = useState([]);
   const { search, region, setSearch, setRegion } = props;
+  const [isLoading, setIsLoading] = useState(false);
 
   const API = "https://restcountries.com/v3.1/";
 
   useEffect(() => {
+    setIsLoading(true);
     let query = "all";
     if (search) {
       query = `name/${search}`;
@@ -21,6 +25,7 @@ const Main = (props) => {
       query = "all";
     }
     Axios.get(API + query).then((res) => {
+      setIsLoading(false);
       setCountries(res.data);
     });
   }, [search, region]);
@@ -40,13 +45,23 @@ const Main = (props) => {
     <>
       <main>
         <div className="main-container">
+          <Search search={search} setSearch={setSearch} setRegion={setRegion} />
+          {isLoading && <div class="loader"></div>}
           <ul>
             {currentPosts.map((country) => {
-              return <Card country={country} key={country.cca3} />;
+              return (
+                <Link
+                  to={`/country/${country.name.common}`}
+                  state={{ country: country }}
+                  className="card-link"
+                >
+                  <Card country={country} key={country.cca3} />
+                </Link>
+              );
             })}
           </ul>
         </div>
-        {currentPosts.length >= 12 && (
+        {currentPosts.length >= 1 && (
           <div className="pagination-container">
             <Pager
               nPages={nPages}

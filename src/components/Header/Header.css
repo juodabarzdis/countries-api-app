@@ -2,6 +2,7 @@ header {
   background-color: #fff;
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
 }
+
 .header-container {
   display: flex;
   justify-content: space-between;
@@ -9,6 +10,7 @@ header {
   max-width: 1700px;
   padding: 0 2rem;
   margin: 0 auto;
+  min-height: 80px;
 }
 
 .logo {
@@ -18,14 +20,23 @@ header {
 .btn {
   border: none;
   background-color: transparent;
+  font-family: "Nunito Sans", sans-serif;
   font-size: 16px;
   font-weight: 600;
   height: 30px;
-  width: 135px;
-  padding: 5px 15px;
+  width: 115px;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .header-container {
+    padding: 0 1rem;
+  }
+  h1 {
+    font-size: 16px;
+  }
 }

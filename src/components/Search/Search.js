@@ -12,7 +12,7 @@ const Search = (props) => {
     e.preventDefault();
     setRegion("");
     setSearch(inputRef.current.value);
-    optionRef.current.value = "all";
+    optionRef.value = "all";
   };
 
   const handleRegion = (e) => {
@@ -33,11 +33,13 @@ const Search = (props) => {
     control: (styles) => ({
       ...styles,
       width: "200px",
-      height: "50px",
+      height: "52px",
       border: "none",
       borderRadius: "5px",
       boxShadow: " 0px 2px 2px 0px rgba(0, 0, 0, 0.1);",
       cursor: "pointer",
+      fontFamily: "inherit",
+      fontSize: "16px",
     }),
   };
 

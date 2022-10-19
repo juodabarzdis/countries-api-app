@@ -5,6 +5,7 @@ import { useState } from "react";
 import Header from "./components/Header/Header";
 import Main from "./pages/Main/Main";
 import Search from "./components/Search/Search";
+import Single from "./pages/Single/Single";
 
 const App = () => {
   const [search, setSearch] = useState("");
@@ -13,7 +14,6 @@ const App = () => {
   return (
     <BrowserRouter>
       <Header />
-      <Search search={search} setSearch={setSearch} setRegion={setRegion} />
       <Routes>
         <Route
           path="/"
@@ -26,6 +26,7 @@ const App = () => {
             />
           }
         />
+        <Route path="/country/:country" element={<Single />} />
       </Routes>
     </BrowserRouter>
   );

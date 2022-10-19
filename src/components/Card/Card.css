@@ -1,10 +1,9 @@
 .card {
   background-color: #fff;
   padding: 1rem;
-  margin: 1rem;
   border-radius: 10px;
-  width: 360px;
-  height: 95%;
+  max-width: 360px;
+  min-height: 450px;
   display: flex;
   flex-direction: column;
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
