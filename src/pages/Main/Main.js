@@ -16,19 +16,22 @@ const Main = (props) => {
   const navigate = useNavigate();
   const { page } = useParams();
 
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme, setTheme, toggleTheme } = useContext(ThemeContext);
 
   const API = "https://restcountries.com/v3.1/";
 
   useEffect(() => {
     setIsLoading(true);
+    localStorage.getItem("theme") === "dark" && toggleTheme();
     let query = "all";
     if (search) {
       query = `name/${search}`;
       page && navigate(`/page/1`);
+      localStorage.getItem("theme") === "dark" && toggleTheme();
     } else if (region && region !== "all") {
       query = `region/${region}`;
       page && navigate(`/page/1`);
+      localStorage.getItem("theme") === "dark" && toggleTheme();
     } else if (region === "all") {
       query = "all";
     }

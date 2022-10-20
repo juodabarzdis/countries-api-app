@@ -18,7 +18,7 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
-  }, [theme, search, region]);
+  }, [theme]);
 
   theme === "light" && document.body.classList.remove("dark");
   theme === "dark" && document.body.classList.add("dark");
@@ -37,9 +37,10 @@ const App = () => {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={MainRoute} />
+          <Route index element={MainRoute} />
           <Route path="/page/:page" element={MainRoute} />
           <Route path="/country/:country" element={<Single />} />
+          <Route path="*" element={MainRoute} />
         </Routes>
       </BrowserRouter>
     </ThemeContext.Provider>
