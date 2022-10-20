@@ -1,24 +1,49 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Pagination } from "@mui/material";
+import styled from "@emotion/styled";
+import ThemeContext from "../../context/ThemeContext";
 
 const Pager = (props) => {
   const { nPages, currentPage, setCurrentPage } = props;
+  const navigate = useNavigate();
+  const { page } = useParams();
+  const { theme } = useContext(ThemeContext);
 
-  const pageNumbers = [...Array(nPages + 1).keys()].slice(1);
-
-  console.log(pageNumbers);
   let viewportWidth = window.innerWidth;
-  console.log(viewportWidth);
+
+  const StyledPagination = styled(Pagination)`
+    button {
+      color: ${theme === "light" ? "#000" : "#fff"};
+    }
+    button:hover {
+      background-color: #121212;
+      color: #fff;
+    }
+    div {
+      color: #fff;
+    }
+  `;
+
+  useEffect(() => {
+    if (page) {
+      setCurrentPage(parseInt(page));
+    }
+  }, [page]);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+    navigate(`/page/${value}`);
+  };
 
   return (
     <div>
-      <Pagination
+      <StyledPagination
         count={nPages}
-        siblingCount={viewportWidth > 768 ? 2 : 0}
         page={currentPage}
-        onChange={(e, value) => setCurrentPage(value)}
-        variant="outlined"
-        shape="rounded"
+        onChange={handlePageChange}
+        size={viewportWidth < 600 ? "small" : "medium"}
+        siblingCount={viewportWidth < 600 ? 1 : 2}
       />
     </div>
   );

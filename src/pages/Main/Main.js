@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./Main.css";
 import Axios from "axios";
-
 import Card from "../../components/Card/Card";
 import Pager from "../../components/Pagination/Pager";
 import Search from "../../components/Search/Search";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import ThemeContext from "../../context/ThemeContext";
 
 const Main = (props) => {
   const [countries, setCountries] = useState([]);
   const { search, region, setSearch, setRegion } = props;
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const navigate = useNavigate();
+  const { page } = useParams();
+
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   const API = "https://restcountries.com/v3.1/";
 
@@ -19,20 +25,23 @@ const Main = (props) => {
     let query = "all";
     if (search) {
       query = `name/${search}`;
+      page && navigate(`/page/1`);
     } else if (region && region !== "all") {
       query = `region/${region}`;
+      page && navigate(`/page/1`);
     } else if (region === "all") {
       query = "all";
     }
     Axios.get(API + query).then((res) => {
+      console.log(res.data);
       setIsLoading(false);
       setCountries(res.data);
     });
   }, [search, region]);
 
+  console.log(theme);
   // Pagination
 
-  const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(12);
 
   const indexOfLastPost = currentPage * postsPerPage;
@@ -46,22 +55,25 @@ const Main = (props) => {
       <main>
         <div className="main-container">
           <Search search={search} setSearch={setSearch} setRegion={setRegion} />
-          {isLoading && <div class="loader"></div>}
-          <ul>
-            {currentPosts.map((country) => {
-              return (
-                <Link
-                  to={`/country/${country.name.common}`}
-                  state={{ country: country }}
-                  className="card-link"
-                >
-                  <Card country={country} key={country.cca3} />
-                </Link>
-              );
-            })}
-          </ul>
+          {isLoading && <div className="loader"></div>}
+          {!isLoading && (
+            <ul>
+              {currentPosts.map((country) => {
+                return (
+                  <Link
+                    to={`/country/${country.name.common}`}
+                    state={{ country: country }}
+                    className="card-link"
+                    key={country.cca3}
+                  >
+                    <Card country={country} />
+                  </Link>
+                );
+              })}
+            </ul>
+          )}
         </div>
-        {currentPosts.length >= 1 && (
+        {currentPosts.length >= 1 && !isLoading && (
           <div className="pagination-container">
             <Pager
               nPages={nPages}

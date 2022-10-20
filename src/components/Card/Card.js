@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Card.css";
+import ThemeContext from "../../context/ThemeContext";
 
 const Card = (props) => {
   const { country } = props;
+  const { theme } = useContext(ThemeContext);
 
   return (
     <li>
-      <div className="card">
+      <div className={`card ${theme}`}>
         <div className="card-image">
           <img src={country.flags.svg} alt="" />
         </div>

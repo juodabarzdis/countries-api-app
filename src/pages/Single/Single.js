@@ -1,25 +1,33 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useLocation } from "react-router-dom";
 import "./Single.css";
 import { BsArrowLeft } from "react-icons/bs";
+import { useNavigate, Link } from "react-router-dom";
+import ThemeContext from "../../context/ThemeContext";
 
 const Single = () => {
   const location = useLocation();
   const country = location;
+  const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
 
   const currency = Object.keys(location.state.country.currencies);
-
   const languages = Object.keys(location.state.country.languages);
+
+  const handleBack = (e) => {
+    e.preventDefault();
+    navigate(-1);
+  };
 
   return (
     <>
-      <div className="country-wrapper">
+      <div className={`country-wrapper ${theme}`}>
         <div className="country-container">
           <div className="button-container">
-            <button className="back-btn">
+            <Link className={`back-btn ${theme}`} onClick={handleBack}>
               <BsArrowLeft />
               Back
-            </button>
+            </Link>
           </div>
           <div className="country">
             <div className="country-image-wrapper">

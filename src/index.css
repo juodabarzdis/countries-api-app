@@ -1,6 +1,8 @@
 :root {
   --light-gray: hsl(0, 0%, 98%);
   --dark-gray: hsl(0, 0%, 52%);
+  --dark-bg: hsl(207, 26%, 17%);
+  --dark-elements: hsl(209, 23%, 22%);
 }
 
 * {
@@ -8,10 +10,12 @@
 }
 
 body {
-  margin: 0 auto;
+  margin: 0;
   font-family: "Nunito Sans", sans-serif;
-
   background-color: var(--light-gray);
+}
+body.dark {
+  background-color: var(--dark-bg);
 }
 
 a {

@@ -1,24 +1,14 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import "./Search.css";
 import { CiSearch } from "react-icons/ci";
 import Select from "react-select";
+import ThemeContext from "../../context/ThemeContext";
 
 const Search = (props) => {
   const inputRef = useRef();
   const optionRef = useRef();
   const { setSearch, setRegion } = props;
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setRegion("");
-    setSearch(inputRef.current.value);
-    optionRef.value = "all";
-  };
-
-  const handleRegion = (e) => {
-    setSearch("");
-    setRegion(e.value);
-  };
+  const { theme } = useContext(ThemeContext);
 
   const options = [
     { value: "all", label: "All" },
@@ -29,6 +19,17 @@ const Search = (props) => {
     { value: "oceania", label: "Oceania" },
   ];
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setRegion("");
+    setSearch(inputRef.current.value);
+  };
+
+  const handleRegion = (e) => {
+    setSearch("");
+    inputRef.current.value = "";
+    setRegion(e.value);
+  };
   const customStyles = {
     control: (styles) => ({
       ...styles,
@@ -40,34 +41,63 @@ const Search = (props) => {
       cursor: "pointer",
       fontFamily: "inherit",
       fontSize: "16px",
+      backgroundColor: theme === "light" ? "#fff" : "hsl(209, 23%, 22%)",
+    }),
+
+    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+      return {
+        ...styles,
+        backgroundColor: isDisabled
+          ? null
+          : isSelected
+          ? "hsl(209, 23%, 22%)"
+          : isFocused
+          ? "hsl(0, 0%, 98%)"
+          : "hsl(0, 0%, 100%)",
+
+        cursor: isDisabled ? "not-allowed" : "default",
+        ":active": {
+          ...styles[":active"],
+          backgroundColor:
+            !isDisabled && (isSelected ? data.color : "hsl(0, 0%, 98%)"),
+        },
+      };
+    },
+    singleValue: (styles, { data }) => ({
+      ...styles,
+      color: theme === "light" ? "hsl(200, 15%, 8%)" : "#fff",
+    }),
+    placeholder: (styles) => ({
+      ...styles,
+      color: theme === "light" ? "hsl(200, 15%, 8%)" : "#fff",
     }),
   };
 
   return (
     <div className="search-bar">
-      <form onSubmit={handleSearch} className="search">
-        <button className="search-icon">
-          <CiSearch />
-        </button>
-        <div>
+      <div className="search-bar-container">
+        <form onSubmit={handleSearch} className={`search-form ${theme}`}>
           <input
             ref={inputRef}
             type="text"
             placeholder="Search for a country..."
           />
+          <button type="submit">
+            <CiSearch />
+          </button>
+        </form>
+        <div className="filter">
+          <label htmlFor="region-filter"></label>
+          <Select
+            styles={customStyles}
+            className="select"
+            ref={optionRef}
+            options={options}
+            onChange={handleRegion}
+            placeholder="Filter by Region"
+            isSearchable={false}
+          />
         </div>
-      </form>
-      <div className="filter">
-        <label htmlFor="region-filter"></label>
-        <Select
-          styles={customStyles}
-          className="select"
-          ref={optionRef}
-          options={options}
-          onChange={handleRegion}
-          placeholder="Filter by Region"
-          isSearchable={false}
-        />
       </div>
     </div>
   );
