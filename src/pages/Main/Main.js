@@ -25,34 +25,34 @@ const Main = (props) => {
     localStorage.getItem("theme") === "dark" && toggleTheme();
     let query = "all";
     if (search) {
+      navigate(`/page/1`);
+      setCurrentPage(1);
       query = `name/${search}`;
-      page && navigate(`/page/1`);
       localStorage.getItem("theme") === "dark" && toggleTheme();
     } else if (region && region !== "all") {
       query = `region/${region}`;
-      page && navigate(`/page/1`);
       localStorage.getItem("theme") === "dark" && toggleTheme();
     } else if (region === "all") {
       query = "all";
     }
     Axios.get(API + query).then((res) => {
-      console.log(res.data);
       setIsLoading(false);
       setCountries(res.data);
     });
   }, [search, region]);
 
-  console.log(theme);
   // Pagination
 
   const [postsPerPage] = useState(12);
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
+
   const currentPosts = countries.slice(indexOfFirstPost, indexOfLastPost);
 
   const nPages = Math.ceil(countries.length / postsPerPage);
 
+  console.log(countries);
   return (
     <>
       <main>

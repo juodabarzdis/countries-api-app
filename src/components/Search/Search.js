@@ -21,7 +21,7 @@ const Search = (props) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setRegion("");
+    setRegion("all");
     setSearch(inputRef.current.value);
   };
 
