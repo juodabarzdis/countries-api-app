@@ -1,4 +1,5 @@
 import React, { useRef, useContext } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import "./Search.css";
 import { CiSearch } from "react-icons/ci";
 import Select from "react-select";
@@ -7,8 +8,11 @@ import ThemeContext from "../../context/ThemeContext";
 const Search = (props) => {
   const inputRef = useRef();
   const optionRef = useRef();
-  const { setSearch, setRegion } = props;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { setRegion } = props;
   const { theme } = useContext(ThemeContext);
+
+  const navigate = useNavigate();
 
   const options = [
     { value: "all", label: "All" },
@@ -21,12 +25,11 @@ const Search = (props) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setRegion("all");
-    setSearch(inputRef.current.value);
+    setSearchParams({ search: inputRef.current.value });
   };
 
   const handleRegion = (e) => {
-    setSearch("");
+    navigate(`/page/1`);
     inputRef.current.value = "";
     setRegion(e.value);
   };

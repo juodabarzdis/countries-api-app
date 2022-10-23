@@ -1,45 +1,20 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./Main.css";
-import Axios from "axios";
 import Card from "../../components/Card/Card";
 import Pager from "../../components/Pagination/Pager";
 import Search from "../../components/Search/Search";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import ThemeContext from "../../context/ThemeContext";
+import { Link, useParams } from "react-router-dom";
 
 const Main = (props) => {
-  const [countries, setCountries] = useState([]);
-  const { search, region, setSearch, setRegion } = props;
-  const [isLoading, setIsLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const navigate = useNavigate();
-  const { page } = useParams();
-
-  const { theme, setTheme, toggleTheme } = useContext(ThemeContext);
-
-  const API = "https://restcountries.com/v3.1/";
-
-  useEffect(() => {
-    setIsLoading(true);
-    localStorage.getItem("theme") === "dark" && toggleTheme();
-    let query = "all";
-    if (search) {
-      navigate(`/page/1`);
-      setCurrentPage(1);
-      query = `name/${search}`;
-      localStorage.getItem("theme") === "dark" && toggleTheme();
-    } else if (region && region !== "all") {
-      query = `region/${region}`;
-      localStorage.getItem("theme") === "dark" && toggleTheme();
-    } else if (region === "all") {
-      query = "all";
-    }
-    Axios.get(API + query).then((res) => {
-      setIsLoading(false);
-      setCountries(res.data);
-    });
-  }, [search, region]);
+  const {
+    search,
+    setSearch,
+    setRegion,
+    isLoading,
+    countries,
+    currentPage,
+    setCurrentPage,
+  } = props;
 
   // Pagination
 
@@ -52,12 +27,11 @@ const Main = (props) => {
 
   const nPages = Math.ceil(countries.length / postsPerPage);
 
-  console.log(countries);
   return (
     <>
       <main>
         <div className="main-container">
-          <Search search={search} setSearch={setSearch} setRegion={setRegion} />
+          <Search search={search} setRegion={setRegion} />
           {isLoading && <div className="loader"></div>}
           {!isLoading && (
             <ul>
@@ -76,7 +50,7 @@ const Main = (props) => {
             </ul>
           )}
         </div>
-        {currentPosts.length >= 1 && !isLoading && (
+        {!isLoading && (
           <div className="pagination-container">
             <Pager
               nPages={nPages}

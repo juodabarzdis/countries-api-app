@@ -1,5 +1,5 @@
-import React, { useEffect, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Pagination } from "@mui/material";
 import styled from "@emotion/styled";
 import ThemeContext from "../../context/ThemeContext";
@@ -7,7 +7,6 @@ import ThemeContext from "../../context/ThemeContext";
 const Pager = (props) => {
   const { nPages, currentPage, setCurrentPage } = props;
   const navigate = useNavigate();
-  const { page } = useParams();
   const { theme } = useContext(ThemeContext);
 
   let viewportWidth = window.innerWidth;
@@ -24,12 +23,6 @@ const Pager = (props) => {
       color: #fff;
     }
   `;
-
-  useEffect(() => {
-    if (page) {
-      setCurrentPage(parseInt(page));
-    }
-  }, [page]);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
